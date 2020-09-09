@@ -1,0 +1,22 @@
+# auditLog配置
+audit4j:
+  db-handler:
+    # auditLog记录时否分表. 对于业务不是很复杂的应用，一般设置成false即可
+    separate: false
+    # 是否用内置的数据库记录.一般都是用自己的业务数据库，所以设置为false
+    embedded: false
+    # 默认的表名
+    default_table_name: audit
+    # 以下是auditLog数据库连接的一些配置；auditLog和业务的数据库不共用连接
+    db_connection_type: pooled
+    db_pool_connectionTimeout: 30000
+    db_pool_maximumPoolSize: 2
+    db_pool_minimumIdle: 1
+    db_driver: com.mysql.jdbc.Driver
+    db_url: jdbc:mysql://localhost:3306/audit?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=true&allowMultiQueries=true
+    db_user: root
+    db_password: root
+  # auditLog写日志文件的位置,app需要替换成应用的名称
+  log:
+    file:
+      location: var/log/app/audit

@@ -12,7 +12,7 @@ import org.audit4j.core.handler.file.FileAuditHandler;
 import org.audit4j.core.layout.CustomizableLayout;
 import org.audit4j.core.layout.Layout;
 import org.audit4j.core.layout.SimpleLayout;
-//import org.audit4j.handler.db.DatabaseAuditHandler;
+import org.audit4j.handler.db.DatabaseAuditHandler;
 import org.audit4j.integration.spring.AuditAspect;
 import org.audit4j.integration.spring.SpringAudit4jConfig;
 import org.springframework.context.annotation.Bean;
@@ -54,7 +54,20 @@ public class AuditConfig {
     	
     	return fileAuditHandler;
     }
-
+    @Bean
+    public DatabaseAuditHandler databaseHandler() {
+        DatabaseAuditHandler databaseHandler = new DatabaseAuditHandler();
+        databaseHandler.setEmbedded("false");
+//        databaseHandler.setDb_user(environment.getRequiredProperty("DB_ROOT_USER"));
+//        databaseHandler.setDb_password(environment.getRequiredProperty("DB_PASS"));
+//        databaseHandler.setDb_url(environment.getRequiredProperty("DB_URL"));
+//        databaseHandler.setDb_driver(environment.getRequiredProperty("DB_DRIVER"));
+        databaseHandler.setDb_user("root");
+        databaseHandler.setDb_password("root");
+        databaseHandler.setDb_url("jdbc:mysql://127.0.0.1:3306/audit?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true");
+        databaseHandler.setDb_driver("com.mysql.cj.jdbc.Driver");
+        return databaseHandler;
+    }
     // If you want t o load configurations from file
     // (resources/audit4j.conf.yaml),
     // comment below method
@@ -65,14 +78,14 @@ public class AuditConfig {
         List<Handler> handlers = new ArrayList<Handler>();
         handlers.add(new ConsoleAuditHandler());
 
-        //handlers.add(databaseHandler());
-        handlers.add(fileAuditHandler());
+        handlers.add(databaseHandler());
+        //handlers.add(fileAuditHandler());
         springAudit4jConfig.setHandlers(handlers);
         springAudit4jConfig.setMetaData(new AuditMetaData());
         springAudit4jConfig.setProperties(getProperties());
 
         springAudit4jConfig.setLayout(getLayout());
-        
+
         return springAudit4jConfig;
     }
     
