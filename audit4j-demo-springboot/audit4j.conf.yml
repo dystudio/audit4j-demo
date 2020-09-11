@@ -1,7 +1,12 @@
 !Configuration
-handlers: 
-- !org.audit4j.core.handler.ConsoleAuditHandler {}
+handlers:
+   - !org.audit4j.handler.db.DatabaseAuditHandler
+      db_connection_type: POOLED
+      db_driver: com.mysql.cj.jdbc.Driver
+      db_password: root
+      db_url: jdbc:mysql://127.0.0.1:3306/audit?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+      db_user: root
+      embedded: false
+   - !org.audit4j.core.handler.ConsoleAuditHandler {}
 layout: !org.audit4j.core.layout.SimpleLayout {}
-metaData: !org.audit4j.core.DummyMetaData {}
-properties: 
-   log.file.location: user.dir
+metaData: !hello.AuditMetaData {}
