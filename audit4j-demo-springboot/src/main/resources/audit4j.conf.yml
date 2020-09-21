@@ -8,5 +8,9 @@ handlers:
     db_user: root
     embedded: false
   - !org.audit4j.core.handler.ConsoleAuditHandler {}
+  - !org.audit4j.handler.kafka.KafkaAuditHandler
+    kafka_topic: audit_topic
+    kafka_host: 127.0.0.1:9092
+    kafka_client_id: auditor
 layout: !org.audit4j.core.layout.SimpleLayout {}
 metaData: !hello.AuditMetaData {}
